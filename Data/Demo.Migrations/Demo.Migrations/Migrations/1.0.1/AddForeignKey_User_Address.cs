@@ -3,21 +3,19 @@ using FluentMigrator;
 
 namespace Demo.Migrations.Migrations
 {
-    [Migration(20210709180101)]
-    public class AddUser : Migration
+    [Migration(20210709180102)]
+    public class AddForeignKey_User_Address : Migration
     {
         public override void Up()
         {
-            Create.Table("User")
-                .WithColumn("Id").AsInt64().PrimaryKey().Identity()
-                .WithColumn("FirstName").AsString()
-                .WithColumn("LastName").AsString()
-                .WithColumn("AddressId").AsInt64();
+            Create.ForeignKey("FK_User_Address")
+                .FromTable("User").ForeignColumn("AddressId")
+                .ToTable("Address").PrimaryColumn("Id");
         }
 
         public override void Down()
         {
-            Delete.Table("User");
+            Delete.ForeignKey("FK_User_Address");
         }
     }
 }

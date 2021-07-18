@@ -3,23 +3,21 @@ using FluentMigrator;
 
 namespace Demo.Migrations.Migrations
 {
-    [Migration(20210709180100)]
-    public class AddAddress : Migration
+    [Migration(20210709180101)]
+    public class AddUser : Migration
     {
         public override void Up()
         {
-            Create.Table("Address")
+            Create.Table("User")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity()
-                .WithColumn("Line1").AsString()
-                .WithColumn("Line2").AsString()
-                .WithColumn("Line3").AsString()
-                .WithColumn("County").AsString()
-                .WithColumn("Postcode").AsString();
+                .WithColumn("FirstName").AsString()
+                .WithColumn("LastName").AsString()
+                .WithColumn("AddressId").AsInt64().Nullable();
         }
 
         public override void Down()
         {
-            Delete.Table("Address");
+            Delete.Table("User");
         }
     }
 }

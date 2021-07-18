@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fullstackdemo
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+
+  demoapi:
+    image: demoapi
+    environment:
+      ConnectionStrings__DefaultConnection : server=db;port=3306;user=otb;password=OtbOtb;database=fullstackdemo
+    ports:
+      - "5001:80"
