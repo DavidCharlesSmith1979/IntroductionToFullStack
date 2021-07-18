@@ -26,9 +26,23 @@ namespace Demo.Api
 
         public IConfiguration Configuration { get; }
 
+        readonly string AllowSpecificOriginsCORSPolicy = "allowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOriginsCORSPolicy,
+                                  builder =>
+                                  {
+                                      builder//.WithOrigins("http://localhost:3000")
+                                                            .AllowAnyOrigin()
+                                                          .AllowAnyHeader()
+                                                          .AllowAnyMethod();
+                                  });
+            });
+
             services.AddDbContext<fullstackdemoContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion("5.7.34-mysql"));
@@ -61,6 +75,8 @@ namespace Demo.Api
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo.Api v1"));
 
             app.UseRouting();
+
+            app.UseCors(AllowSpecificOriginsCORSPolicy);
 
             app.UseAuthorization();
 

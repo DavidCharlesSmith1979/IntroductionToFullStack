@@ -58,6 +58,10 @@ delete:
 
 ## UI
 
+``` npx create-react-app ```
+
+``` docker build -f Dockerfile -t demoui . ```
+
 ### Purpose
 
 #### Tasks:

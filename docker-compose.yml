@@ -17,3 +17,8 @@ services:
       ConnectionStrings__DefaultConnection : server=db;port=3306;user=otb;password=OtbOtb;database=fullstackdemo
     ports:
       - "5001:80"
+
+  demoui:
+    image: demoui
+    ports:
+      - "3001:3000"
