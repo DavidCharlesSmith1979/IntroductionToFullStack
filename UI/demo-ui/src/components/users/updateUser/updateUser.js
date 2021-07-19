@@ -1,9 +1,10 @@
 import React from 'react';
 
-class CreateUser extends React.Component {
+class UpdateUser extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {user: { firstName: '', lastName: '' }, users: props.Users };
+        // this.setState({ user: this.props.User });
+        this.state = { user: this.props.User };
     
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
@@ -22,7 +23,7 @@ class CreateUser extends React.Component {
         alert('A user was submitted: ' + this.state.user.firstName);
 
         fetch('http://localhost:5001/users', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -32,7 +33,7 @@ class CreateUser extends React.Component {
         .then(data => {
             console.log('Success:', data);
 
-            this.props.AddUser(data);
+            this.props.UpdateUser(data);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -44,18 +45,18 @@ class CreateUser extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    First Name:
-                    <input type="text" onChange={this.handleFirstNameChange} />
-                </label>
-                <label>
-                    Last Name:
-                    <input type="text" onChange={this.handleLastNameChange} />
-                </label>
-                <input type="submit" value="Add" />
+            <label>
+                First Name:
+                <input type="text" value={this.state.user.firstName} onChange={this.handleFirstNameChange} />
+            </label>
+            <label>
+                Last Name:
+                <input type="text" value={this.state.user.lastName} onChange={this.handleLastNameChange} />
+            </label>
+            <input type="submit" value="Update" />
             </form>
         );
     }
 }
 
-export default CreateUser;
+export default UpdateUser;

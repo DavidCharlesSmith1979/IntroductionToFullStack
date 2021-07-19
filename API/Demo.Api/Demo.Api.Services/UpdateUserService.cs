@@ -22,11 +22,13 @@ namespace Demo.Api.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Update(Demo.Api.Models.User user)
+        public async Task<Demo.Api.Models.User> Update(Demo.Api.Models.User user)
         {
             var dtoUser = _mapper.Map<Demo.Api.Data.User>(user);
 
-            return await _userRepository.Update(dtoUser);
+            var updatedDTOUser = await _userRepository.Update(dtoUser);
+
+            return _mapper.Map<Demo.Api.Models.User>(updatedDTOUser);
         }
     }
 }

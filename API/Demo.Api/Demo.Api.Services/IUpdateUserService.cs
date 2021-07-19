@@ -5,6 +5,6 @@ namespace Demo.Api.Services
 {
     public interface IUpdateUserService
     {
-        Task<bool> Update(User user);
+        Task<User> Update(User user);
     }
 }

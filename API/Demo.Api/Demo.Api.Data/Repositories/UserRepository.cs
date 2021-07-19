@@ -34,16 +34,16 @@ namespace Demo.Api.Data
             return user;
         }
 
-        public async Task<bool> Update(User user)
+        public async Task<User> Update(User user)
         {
             _fullstackdemoContext.Attach(user);
 
             _fullstackdemoContext.Entry(user).Property(x => x.FirstName).IsModified = true;
             _fullstackdemoContext.Entry(user).Property(x => x.LastName).IsModified = true;
 
-            var writeCount = await _fullstackdemoContext.SaveChangesAsync();
+            await _fullstackdemoContext.SaveChangesAsync();
 
-            return writeCount == 1;
+            return user;
         }
 
         public async Task<bool> Delete(long id)

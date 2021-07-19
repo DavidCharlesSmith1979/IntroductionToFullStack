@@ -157,11 +157,16 @@ namespace Demo.Api.IntegrationTests
                 user.LastName = "NewLastName";
 
             // Act
-            await _client.PutAsJsonAsync("/users", user);
+            var response = await _client.PutAsJsonAsync("/users", user);
+            var updatedUser = await response.Content.ReadFromJsonAsync<User>();
 
             using (var scope = _factory.Services.CreateScope())
             {
                 // Assert
+                updatedUser.Should().NotBeNull();
+                updatedUser.FirstName.Should().Be(user.FirstName);
+                updatedUser.LastName.Should().Be(user.LastName);
+
                 var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
                 var updatedDTOUser = await userRepository.Get(id);
                 updatedDTOUser.Should().NotBeNull();

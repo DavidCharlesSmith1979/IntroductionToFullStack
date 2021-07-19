@@ -9,6 +9,6 @@ namespace Demo.Api.Data
         Task<bool> Delete(long id);
         Task<List<User>> Get();
         Task<User> Get(long id);
-        Task<bool> Update(User user);
+        Task<User> Update(User user);
     }
 }
