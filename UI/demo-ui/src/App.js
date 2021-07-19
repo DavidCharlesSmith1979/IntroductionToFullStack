@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Users from './components/users/users'
+import Users from './components/users/displayAllUsers/users'
 
 function App() {
   return (

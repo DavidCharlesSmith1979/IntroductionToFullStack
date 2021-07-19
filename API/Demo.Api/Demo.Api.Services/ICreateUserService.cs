@@ -5,6 +5,6 @@ namespace Demo.Api.Services
 {
     public interface ICreateUserService
     {
-        Task<bool> Create(User user);
+        Task<User> Create(User user);
     }
 }

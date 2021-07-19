@@ -22,11 +22,13 @@ namespace Demo.Api.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Create(Demo.Api.Models.User user)
+        public async Task<Demo.Api.Models.User> Create(Demo.Api.Models.User user)
         {
             var dtoUser = _mapper.Map<Demo.Api.Data.User>(user);
 
-            return await _userRepository.Create(dtoUser);
+            var newDTOUser =  await _userRepository.Create(dtoUser);
+
+            return _mapper.Map<Demo.Api.Models.User>(newDTOUser);
         }
     }
 }

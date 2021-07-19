@@ -25,13 +25,13 @@ namespace Demo.Api.Data
             return await _fullstackdemoContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Create(User user)
+        public async Task<User> Create(User user)
         {
             await _fullstackdemoContext.Users.AddAsync(user);
 
-            var writeCount = await _fullstackdemoContext.SaveChangesAsync();
+            await _fullstackdemoContext.SaveChangesAsync();
 
-            return writeCount == 1;
+            return user;
         }
 
         public async Task<bool> Update(User user)

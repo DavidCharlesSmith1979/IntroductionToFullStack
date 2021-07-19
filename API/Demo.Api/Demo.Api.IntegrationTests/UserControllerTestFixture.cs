@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using System.Net.Http.Json;
 using Demo.Api.Data;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,22 +56,24 @@ namespace Demo.Api.IntegrationTests
         public async Task POST_GivenICreateANewUser_IShouldSeeANewUserCreatedInTheDB()
         {
             // Arrange
-            var id = new Random().Next(int.MaxValue);
-
             var user = new UserBuilder()
-                        .SetId(id)
                         .Build();
 
             // Act
-            await _client.PostAsJsonAsync("/users", user);
+            var response = await _client.PostAsJsonAsync("/users", user);
+            var newUser = await response.Content.ReadFromJsonAsync<User>();
 
             // Assert
             using (var scope = _factory.Services.CreateScope())
             {
+                newUser.Should().NotBeNull();
+                newUser.FirstName.Should().Be(user.FirstName);
+                newUser.LastName.Should().Be(user.LastName);
+
                 var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-                var dtoUser = await userRepository.Get(id);
+                var dtoUser = await userRepository.Get(newUser.Id);
                 dtoUser.Should().NotBeNull();
-                dtoUser.Id.Should().Be(user.Id);
+                dtoUser.Id.Should().Be(newUser.Id);
                 dtoUser.FirstName.Should().Be(user.FirstName);
                 dtoUser.LastName.Should().Be(user.LastName);
             }
